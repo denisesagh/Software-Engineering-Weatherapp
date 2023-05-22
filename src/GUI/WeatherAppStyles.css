@@ -1,0 +1,57 @@
+body {
+    font-family: sans-serif;
+    background-color: #dadfe1;
+}
+
+h2 {
+    color: #1d3557;
+    text-align: center;
+}
+
+#aktuelleBedingungen,
+#wetterStatistiken,
+#wetterVorhersage {
+    border: 1px solid #1d3557;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+#aktuelleBedingungen {
+    background-color: #a8dadc;
+}
+
+#wetterStatistiken {
+    background-color: #f1faee;
+}
+
+#wetterVorhersage {
+    background-color: #e9c46a;
+}
+
+button {
+    background-color: #1d3557;
+    color: #fff;
+    border: 0;
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: block;
+    margin: 0 auto;
+}
+
+button:hover {
+    background-color: #457b9d;
+}
+
+input {
+
+    border: 1px solid #1d3557;
+    border-radius: 5px;
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+}
+input + button {
+    margin-top: 10px;
+}
