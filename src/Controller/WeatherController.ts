@@ -1,10 +1,13 @@
 import {WeatherdataDisplay} from "../View/WeatherdataDisplay";
 
+import {Chart} from "chart.js/auto";
+import * as timers from "timers";
+
 export class WeatherController{
 
     private subject: Subject;
     weatherdataDisplay = new WeatherdataDisplay(this);
-    temperatureArray = new Array<number>();
+    public temperatureArray = new Array<number>();
 
     constructor(weatherStation: Subject) {
         this.subject = weatherStation;
@@ -32,13 +35,53 @@ export class WeatherController{
         this.weatherdataDisplay.updateMaxTemperatureView(maxTemperature);
     }
 
+
+
+    private messurementTimeStamps = new Array<string>();
+
+    private ctx = document.getElementById("temperatureChart") as HTMLCanvasElement;
+    private temperatureChart = new Chart(this.ctx, {
+        type: 'line',
+        data: {
+            labels: this.messurementTimeStamps,
+
+            datasets: [
+                {
+                    label: 'Temperatur',
+                    data: this.temperatureArray,
+                }
+            ]
+        },
+
+    });
+
+
+
+
+    public updateChart(): void {
+
+        this.temperatureChart.data.datasets[0].data = this.temperatureArray;
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const dateTime = date+' '+time;
+        this.messurementTimeStamps.push(dateTime);
+        this.temperatureChart.update();
+
+    }
+
+
     //Methode um die Temperatur zu aktualisieren und alle davon abhängigen Methoden aufzurufen
     public updateTemperature(temperature: number): void {
         this.temperatureArray.push(temperature);
+        if (this.temperatureArray.length > 10) this.temperatureArray.shift(), this.messurementTimeStamps.shift();
         this.updateMinTemperature();
         this.updateMaxTemperature();
-        this.updateAverageTemperature()
+        this.updateAverageTemperature();
+        this.updateChart();
+
         this.weatherdataDisplay.updateTemperatureView(temperature);
+
     }
 
     //Methode um den Luftdruck zu aktualisieren
@@ -67,6 +110,10 @@ export class WeatherController{
         const forecast = this.getForecast(airPressure);
         this.weatherdataDisplay.updateForecastView(forecast);
     }
+
+
+
+
 
 
 }

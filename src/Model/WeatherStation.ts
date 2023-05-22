@@ -1,5 +1,5 @@
 
-
+import {Chart} from "chart.js/auto";
 import { WeatherController } from "../Controller/WeatherController";
 class WeatherStation implements Subject{
 
@@ -120,8 +120,14 @@ class WeatherStation implements Subject{
 
     startintervall(){
         //Call the method to simulate new weather data every second
-        setInterval(this.simulateNewWeatherdata, 1000);
+        setInterval(this.simulateNewWeatherdata, 3000);
     }
+
+
+
+
+
+
 }
 
 

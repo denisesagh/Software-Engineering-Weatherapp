@@ -1,4 +1,5 @@
 import {WeatherController} from "../Controller/WeatherController";
+import {Chart} from "chart.js";
 
 export class WeatherdataDisplay {
     private controller: WeatherController;
@@ -63,6 +64,12 @@ export class WeatherdataDisplay {
 
         }
     }
+
+
+
+
+
 }
+
 
 

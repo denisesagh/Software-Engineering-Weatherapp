@@ -9,7 +9,6 @@
   "build-watch": "webpack --watch --config webpack.config.dev.js",
   "format": "prettier ./src/**/* --write",
   "lint": "eslint ./src/**/* --fix",
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,5 +19,8 @@
     "typescript": "^5.0.4",
     "webpack": "^5.82.0",
     "webpack-cli": "^5.1.1"
+  },
+  "dependencies": {
+    "chart.js": "^4.3.0"
   }
 }

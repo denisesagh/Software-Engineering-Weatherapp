@@ -55,3 +55,10 @@ input {
 input + button {
     margin-top: 10px;
 }
+
+#temperatureChart {
+    width: 70%;
+    margin: 0 auto;
+    height: auto;
+}
+
