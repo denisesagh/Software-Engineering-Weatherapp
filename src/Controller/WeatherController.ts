@@ -1,7 +1,7 @@
 import {WeatherdataDisplay} from "../View/WeatherdataDisplay";
 
 import {Chart} from "chart.js/auto";
-import * as timers from "timers";
+
 
 export class WeatherController{
 

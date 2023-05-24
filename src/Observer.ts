@@ -4,4 +4,5 @@ interface Observer {
     updateHumidity(humidity: number): void;
     updateForecast(airPressure: number): void;
     updateMaxTemperature(temperature: number): void;
+
 }

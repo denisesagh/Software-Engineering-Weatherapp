@@ -1,13 +1,28 @@
 
-import {Chart} from "chart.js/auto";
+
 import { WeatherController } from "../Controller/WeatherController";
+import {Sensor} from "./Sensor";
+import {SensorFactory} from "./SensorFactory";
 class WeatherStation implements Subject{
 
     private temperature: number;
     private airPressure: number;
     private humidity: number;
 
+    public sensors: Sensor[] = [];
     private observers: Observer[] = [];
+
+    constructor() {
+        console.log("Sensoren sollen gepusht werden")
+
+        this.sensors.push(SensorFactory.getSensor('temperature'));
+        this.sensors.push(SensorFactory.getSensor('humidity'));
+        this.sensors.push(SensorFactory.getSensor('airPressure'));
+        console.log("Sensoren wurden gepusht")
+
+        console.log(this.sensors)
+
+    }
 
 
     setWeatherData() {
@@ -48,85 +63,35 @@ class WeatherStation implements Subject{
 
 
 
-    simulateNewWeatherdata() {
+    simulateNewWeatherdata(sensoreliste: Sensor[]) {
 
-        //Get current weather data
-        const currentTemperature = this.temperature;
-        const currentAirPressure = this.airPressure;
-        const currentHumidity = this.humidity;
-
-        //Upper and lower limit of deviation
-        const maxDeviation = 5;
-        const minDeviation = -5;
-
-        //Upper and lower limit of humidity
-        const maxHumidity = 100;
-        const minHumidity = 0;
-
-        //Upper and lower limit of temperature
-        const maxTemperature = 50;
-        const minTemperature = -20;
-
-        //Upper and lower limit of air pressure
-        const minAirPressure = 970;
-        const maxAirPressure = 1060;
-
-        //Simulate new weather data
-        //If there is no current weather data, it will generate random data
-        //If there is current weather data, it will generate random data in a range of +-5, so it is more realistic
-        if(!isNaN(currentTemperature)) {
-            const randomTemperatureDeviation = Math.floor(Math.random()  * (maxDeviation - minDeviation + 1) + minDeviation);
-            if (currentTemperature + randomTemperatureDeviation > maxTemperature || currentTemperature + randomTemperatureDeviation < minTemperature) {
-                this.temperature = currentTemperature + randomTemperatureDeviation * -1;
-            }else{
-                this.temperature = currentTemperature + randomTemperatureDeviation;
+        console.log(sensoreliste)
+        for (let sensor of sensoreliste) {
+            const value = sensor.getValue();
+            switch (sensor.constructor.name) {
+                case 'TemperatureSensor':
+                    this.setTemperature(value);
+                    break;
+                case 'HumiditySensor':
+                    this.setHumidity(value);
+                    break;
+                case 'AirPressureSensor':
+                    this.setAirPressure(value);
+                    break;
             }
-        }else{
-            this.temperature = Math.floor(Math.random() * (maxTemperature - minTemperature + 1) + minTemperature);
+
+            // Update corresponding weather data based on sensor type
         }
-
-        if(!isNaN(currentHumidity)) {
-            const randomHumidityDeviation = Math.floor(Math.random()  * (maxDeviation - minDeviation + 1) + minDeviation);
-            if(currentHumidity + randomHumidityDeviation > maxHumidity || currentHumidity + randomHumidityDeviation < minHumidity) {
-                this.humidity = currentHumidity + randomHumidityDeviation * -1;
-            }else{
-                this.humidity = currentHumidity + randomHumidityDeviation;
-            }
-        }else{
-            this.humidity = Math.floor(Math.random() * 100);
-        }
-
-        if(!isNaN(currentAirPressure)) {
-            const randomAirPressureDeviation = Math.floor(Math.random()  * (maxDeviation - minDeviation + 1) + minDeviation);
-            if (currentAirPressure + randomAirPressureDeviation > maxAirPressure || currentAirPressure + randomAirPressureDeviation < minAirPressure) {
-                this.airPressure = currentAirPressure + randomAirPressureDeviation * -1;
-            }else{
-                this.airPressure = currentAirPressure + randomAirPressureDeviation;
-            }
-        }else{
-            this.airPressure = Math.random() * (maxAirPressure - minAirPressure + 1) + minAirPressure;
-        }
-
-
-
-        //Set the new weather data
-        weatherStation.setAirPressure(this.airPressure);
-        weatherStation.setHumidity(this.humidity);
-        weatherStation.setTemperature(this.temperature);
-
-        //Call the method to notify the observers about the new weather data
-        weatherStation.setWeatherData();
+        this.setWeatherData();
     }
+
 
     startintervall(){
         //Call the method to simulate new weather data every second
-        setInterval(this.simulateNewWeatherdata, 3000);
+        setInterval(() => {this.simulateNewWeatherdata(this.sensors)}, 3000);
+        console.log(this.sensors)
+
     }
-
-
-
-
-
 
 }
 
