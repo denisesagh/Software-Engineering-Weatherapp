@@ -13,20 +13,13 @@ class WeatherStation implements Subject{
     private observers: Observer[] = [];
 
     constructor() {
-        console.log("Sensoren sollen gepusht werden")
-
         this.sensors.push(SensorFactory.getSensor('temperature'));
         this.sensors.push(SensorFactory.getSensor('humidity'));
         this.sensors.push(SensorFactory.getSensor('airPressure'));
-        console.log("Sensoren wurden gepusht")
-
         console.log(this.sensors)
-
     }
 
-
     setWeatherData() {
-        console.log('WeatherStation: Temp: ' + this.temperature + ' Luftdruck: ' + this.airPressure + ' Luftfeuchtigkeit: ' + this.humidity);
         this.notifyObservers()
     }
 
@@ -41,7 +34,6 @@ class WeatherStation implements Subject{
         this.temperature = _temperature;
     }
 
-    // Observer Pattern
     public registerObserver(o: Observer): void {
         this.observers.push(o);
     }
@@ -51,22 +43,19 @@ class WeatherStation implements Subject{
         this.observers.splice(index, 1);
     }
 
+    //Methode to notify all observers
     public notifyObservers(): void {
-        console.log("Wurde aufgerufen")
         for (let observer of this.observers) {
             observer.updateTemperature(this.temperature);
             observer.updateAirPressure(this.airPressure);
             observer.updateHumidity(this.humidity);
-            // Easily extendable for more weather data like wind speed, wind direction, etc.
         }
     }
 
-
-
-    simulateNewWeatherdata(sensoreliste: Sensor[]) {
-
-        console.log(sensoreliste)
-        for (let sensor of sensoreliste) {
+    //Methode to set the weather data depending on the sensor measurements
+    simulateNewWeatherdata(sensorliste: Sensor[]) {
+        console.log(sensorliste)
+        for (let sensor of sensorliste) {
             const value = sensor.getValue();
             switch (sensor.constructor.name) {
                 case 'TemperatureSensor':
@@ -79,20 +68,15 @@ class WeatherStation implements Subject{
                     this.setAirPressure(value);
                     break;
             }
-
-            // Update corresponding weather data based on sensor type
         }
         this.setWeatherData();
     }
 
-
+    //Methode to simulate new weather data every 3 seconds
     startintervall(){
-        //Call the method to simulate new weather data every second
         setInterval(() => {this.simulateNewWeatherdata(this.sensors)}, 3000);
         console.log(this.sensors)
-
     }
-
 }
 
 

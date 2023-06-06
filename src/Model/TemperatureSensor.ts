@@ -14,6 +14,8 @@ export class TemperatureSensor implements Sensor {
         const maxTemperature = 50;
         const minTemperature = -20;
 
+        //If the current air pressure is NaN (e.g. at the beginning of the program), a random value is generated.
+        //Otherwise, the current air pressure is used as the basis for the deviation.
         if(!isNaN(currentTemperature)) {
             const randomTemperatureDeviation = Math.floor(Math.random()  * (maxDeviation - minDeviation + 1) + minDeviation);
             if (currentTemperature + randomTemperatureDeviation > maxTemperature || currentTemperature + randomTemperatureDeviation < minTemperature) {
@@ -25,7 +27,7 @@ export class TemperatureSensor implements Sensor {
             this.temperature = Math.floor(Math.random() * (maxTemperature - minTemperature + 1) + minTemperature);
         }
 
-        // Return random temperature value
+        // Return temperature value
         return this.temperature;
 
 

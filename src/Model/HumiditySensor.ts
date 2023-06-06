@@ -3,8 +3,6 @@ import {Sensor} from "./Sensor";
 export class HumiditySensor implements Sensor {
     private humidity: number;
 
-
-
     constructor() {
         this.getValue();
     }
@@ -21,9 +19,8 @@ export class HumiditySensor implements Sensor {
         const maxHumidity = 100;
         const minHumidity = 0;
 
-
-
-
+        //If the current air pressure is NaN (e.g. at the beginning of the program), a random value is generated.
+        //Otherwise, the current air pressure is used as the basis for the deviation.
         if(!isNaN(currentHumidity)) {
             const randomHumidityDeviation = Math.floor(Math.random()  * (maxDeviation - minDeviation + 1) + minDeviation);
             if(currentHumidity + randomHumidityDeviation > maxHumidity || currentHumidity + randomHumidityDeviation < minHumidity) {
@@ -35,7 +32,7 @@ export class HumiditySensor implements Sensor {
             this.humidity = Math.floor(Math.random() * 100);
         }
 
-        // Return random humidity value
+        // Return humidity value
         return this.humidity;
     }
 }

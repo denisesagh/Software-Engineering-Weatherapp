@@ -4,6 +4,8 @@ import {HumiditySensor} from "./HumiditySensor";
 import {AirPressureSensor} from "./AirPressureSensor";
 
 export abstract class SensorFactory {
+
+    // Factory Method Pattern checks the type of the sensor and returns the corresponding sensor
     public static getSensor(type: string): Sensor {
         console.log("SensorFactory: " + type)
         switch (type) {
