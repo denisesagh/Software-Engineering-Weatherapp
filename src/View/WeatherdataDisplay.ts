@@ -1,7 +1,10 @@
 import {WeatherController} from "../Controller/WeatherController";
-import {Chart} from "chart.js";
+
+import Chart from 'chart.js/auto';
 
 export class WeatherdataDisplay {
+
+
     private controller: WeatherController;
 
     private temperatureArray = new Array<number>();
@@ -58,13 +61,6 @@ export class WeatherdataDisplay {
         averageTemperatureElement!.textContent = `${averageTemperature.toFixed(2)} °C`;
     }
 
-    //Methode to update the chart view
-    updateChartView(messurementTimeStamps: Array<string>, temperatureArray: Array<number>, ) {
-        this.temperatureChart.data.datasets[0].data = temperatureArray;
-        this.messurementTimeStamps = messurementTimeStamps;
-        this.temperatureChart.update();
-    }
-
     //Chart
     private ctx = document.getElementById("temperatureChart") as HTMLCanvasElement;
     private temperatureChart = new Chart(this.ctx, {
@@ -80,6 +76,13 @@ export class WeatherdataDisplay {
         },
 
     });
+
+    //Methode to update the chart view
+    updateChartData(messurementTimeStamps: Array<string>, temperatureArray: Array<number>, ) {
+        this.temperatureChart.data.datasets[0].data = temperatureArray;
+        this.temperatureChart.data.labels = messurementTimeStamps;
+        this.temperatureChart.update();
+    }
 
     //Methode to add a listener to the change temperature button
     private addChangeTemperatureButtonListener() {

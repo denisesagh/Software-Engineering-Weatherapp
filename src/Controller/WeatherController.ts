@@ -1,18 +1,17 @@
 import {WeatherdataDisplay} from "../View/WeatherdataDisplay";
+import Chart from "chart.js/auto";
 
 //Wetter Controller Klasse. Hier werden die Daten verarbeitet und an die View weitergegeben
 export class WeatherController{
 
     private subject: Subject;
     weatherdataDisplay = new WeatherdataDisplay(this);
-
     public temperatureArray = new Array<number>();
     private messurementTimeStamps = new Array<string>();
 
     constructor(weatherStation: Subject) {
         this.subject = weatherStation;
         weatherStation.registerObserver(this);
-        this.weatherdataDisplay = new WeatherdataDisplay(this);
     }
 
     //Methode to calculate the average temperature
@@ -40,7 +39,7 @@ export class WeatherController{
         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         const dateTime = date+' '+time;
         this.messurementTimeStamps.push(dateTime);
-        this.weatherdataDisplay.updateChartView(this.messurementTimeStamps, this.temperatureArray)
+        this.weatherdataDisplay.updateChartData(this.messurementTimeStamps, this.temperatureArray)
     }
 
     //Method to update the temperature and call all dependent methods
